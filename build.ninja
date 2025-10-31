@@ -1,0 +1,12 @@
+builddir = out
+
+rule compile
+    command = cc -O1 -MD -MF $out.d -c $in -o $out
+    depfile = $out.d
+    deps    = gcc
+
+rule dank
+    command = objdump -d $in | grep 42069 > $out
+
+build out/dank.o:  compile dank.c
+build out/dank.ok: dank out/dank.o
