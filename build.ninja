@@ -8,5 +8,9 @@ rule compile
 rule dank
     command = objdump -d $in | grep 42069 > $out
 
+rule no_literal
+    command = if grep -n "42069" $in; then echo "forbidden literal found"; exit 1; else touch $out; fi
+
 build out/dank.o:  compile dank.c
 build out/dank.ok: dank out/dank.o
+build out/dank.no-literal: no_literal dank.c
